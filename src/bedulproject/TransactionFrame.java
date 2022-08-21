@@ -87,14 +87,15 @@ public class TransactionFrame extends JFrame {
 					for (int i = 0; i <cols;i++) {
 						colName[i] = rsmd.getColumnName(i+1);
 						model.setColumnIdentifiers(colName);
-						String id,namaCustomer,namaProduct,quantity;
+						String id,namaCustomer,namaProduct,quantity,tanggal;
 						
 						while(rs.next()) {
 							id = rs.getString(1);
 							namaCustomer = rs.getString(2);
 							namaProduct = rs.getString(3);
 							quantity = rs.getString(4);
-							String[] row = {id,namaCustomer,namaProduct,quantity};
+							tanggal = rs.getString(5);
+							String[] row = {id,namaCustomer,namaProduct,quantity,tanggal};
 							model.addRow(row);
 						}
 					}			    

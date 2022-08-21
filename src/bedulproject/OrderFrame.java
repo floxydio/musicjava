@@ -13,6 +13,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+
+import com.toedter.calendar.JDateChooser;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -48,7 +51,7 @@ public class OrderFrame extends JFrame {
 	public OrderFrame() {
 		setTitle("Order Transaksi");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 307);
+		setBounds(100, 100, 450, 382);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.DARK_GRAY);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -67,12 +70,12 @@ public class OrderFrame extends JFrame {
 		
 		JLabel lblJumlah = new JLabel("Jumlah");
 		lblJumlah.setForeground(Color.WHITE);
-		lblJumlah.setBounds(52, 162, 61, 16);
+		lblJumlah.setBounds(52, 215, 61, 16);
 		contentPane.add(lblJumlah);
 		
 		txtQuantity = new JTextField();
 		txtQuantity.setColumns(10);
-		txtQuantity.setBounds(52, 190, 244, 26);
+		txtQuantity.setBounds(52, 243, 244, 26);
 		contentPane.add(txtQuantity);
 		
 		JComboBox comboBox = new JComboBox();
@@ -95,9 +98,22 @@ public class OrderFrame extends JFrame {
 		
 		JButton btnOrder = new JButton("Order Sekarang");
 		btnOrder.setForeground(Color.DARK_GRAY);
-		btnOrder.setBounds(113, 228, 232, 44);
+		btnOrder.setBounds(99, 294, 232, 44);
 		contentPane.add(btnOrder);
 		
+		JLabel lblTanggal = new JLabel("Tanggal");
+		lblTanggal.setForeground(Color.WHITE);
+		lblTanggal.setBounds(6, 141, 61, 16);
+		contentPane.add(lblNewLabel_1);
+		
+		JDateChooser txtDate = new JDateChooser();
+		txtDate.setBounds(52, 181, 244, 26);
+		contentPane.add(txtDate);
+		
+		JLabel lblNewLabel_2 = new JLabel("Tanggal");
+		lblNewLabel_2.setForeground(Color.WHITE);
+		lblNewLabel_2.setBounds(52, 153, 61, 16);
+		contentPane.add(lblNewLabel_2);
 		
 	btnTriggerComboBox.addActionListener(new ActionListener() {
 			
@@ -132,7 +148,7 @@ public class OrderFrame extends JFrame {
 				Class.forName("com.mysql.cj.jdbc.Driver");
 				Connection Con = DriverManager.getConnection("jdbc:mysql://localhost:3306/music","root", "");
 				Statement stmt= Con.createStatement();
-				String sql = String.format("INSERT INTO transaction (nama_customer,nama_product,quantity) VALUES ('%s','%s','%d')",txtNamaCustomer.getText(),comboBox.getSelectedItem(),Integer.parseInt(txtQuantity.getText()));
+				String sql = String.format("INSERT INTO transaction (nama_customer,nama_product,tanggal,quantity) VALUES ('%s','%s','%s','%d')",txtNamaCustomer.getText(),comboBox.getSelectedItem(),txtDate.getDate(),Integer.parseInt(txtQuantity.getText()));
 				System.out.println(sql);
 									stmt.executeUpdate(sql);
 				JOptionPane.showMessageDialog(null,"Sucessfully Order");

@@ -16,6 +16,8 @@ import com.toedter.components.JSpinField;
 import com.mysql.cj.jdbc.result.ResultSetMetaData;
 import com.toedter.calendar.JDateChooser;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
+
 import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -243,6 +245,25 @@ public class CustomerFrame extends JFrame {
 		lblNewLabel_3.setIcon(new ImageIcon("/Users/macbook/Downloads/acoustic-guitar-pngrepo-com.png"));
 		lblNewLabel_3.setBounds(402, -74, 537, 333);
 		contentPane.add(lblNewLabel_3);
+		
+//		JButton btnGeneratePdf = new JButton("New button");
+//		btnGeneratePdf.setBounds(325, 128, 117, 29);
+//		contentPane.add(btnGeneratePdf);
+//		
+//		btnGeneratePdf.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				String path = "";
+//				JFileChooser j = new JFileChooser();
+//				
+//				j.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+//				
+//				int x = j.showSaveDialog(this);
+//				   
+//				
+//				
+//				
+//			}
+//		});
 		
 		btnClear.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
