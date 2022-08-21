@@ -16,6 +16,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import java.awt.Color;
 
 public class AddProduct extends JFrame {
 
@@ -24,6 +25,7 @@ public class AddProduct extends JFrame {
 	private JTextField txtHarga;
 	private JTextField txtKodeBarang;
 	private JTextField txtJumlah;
+	private JLabel lblNewLabel_1;
 
 	/**
 	 * Launch the application.
@@ -45,15 +47,18 @@ public class AddProduct extends JFrame {
 	 * Create the frame.
 	 */
 	public AddProduct() {
+		setTitle("Add Product");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 276);
 		contentPane = new JPanel();
+		contentPane.setBackground(Color.DARK_GRAY);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("Nama Product");
-		lblNewLabel.setBounds(10, 37, 275, 16);
+		lblNewLabel.setForeground(Color.WHITE);
+		lblNewLabel.setBounds(10, 37, 122, 16);
 		contentPane.add(lblNewLabel);
 		
 		txtNama = new JTextField();
@@ -62,6 +67,7 @@ public class AddProduct extends JFrame {
 		txtNama.setColumns(10);
 		
 		JLabel lblHarga = new JLabel("Harga");
+		lblHarga.setForeground(Color.WHITE);
 		lblHarga.setBounds(233, 37, 81, 16);
 		contentPane.add(lblHarga);
 		
@@ -71,6 +77,7 @@ public class AddProduct extends JFrame {
 		contentPane.add(txtHarga);
 		
 		JLabel lblKodeProduct = new JLabel("Kode Product");
+		lblKodeProduct.setForeground(Color.WHITE);
 		lblKodeProduct.setBounds(233, 103, 275, 16);
 		contentPane.add(lblKodeProduct);
 		
@@ -80,6 +87,7 @@ public class AddProduct extends JFrame {
 		contentPane.add(txtKodeBarang);
 		
 		JLabel lblJumlah = new JLabel("Jumlah");
+		lblJumlah.setForeground(Color.WHITE);
 		lblJumlah.setBounds(10, 103, 122, 16);
 		contentPane.add(lblJumlah);
 		
@@ -89,8 +97,13 @@ public class AddProduct extends JFrame {
 		contentPane.add(txtJumlah);
 		
 		JButton btnNewButton = new JButton("Save Product");
-		btnNewButton.setBounds(150, 193, 117, 29);
+		btnNewButton.setForeground(Color.DARK_GRAY);
+		btnNewButton.setBounds(134, 186, 169, 41);
 		contentPane.add(btnNewButton);
+		
+		lblNewLabel_1 = new JLabel("Nama Product");
+		lblNewLabel_1.setBounds(10, 37, 275, 16);
+		contentPane.add(lblNewLabel_1);
 		
 		btnNewButton.addActionListener(new ActionListener() {
 			

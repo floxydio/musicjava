@@ -18,6 +18,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
+import java.awt.Color;
 
 public class OrderFrame extends JFrame {
 
@@ -45,14 +46,17 @@ public class OrderFrame extends JFrame {
 	 * Create the frame.
 	 */
 	public OrderFrame() {
+		setTitle("Order Transaksi");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 450, 307);
 		contentPane = new JPanel();
+		contentPane.setBackground(Color.DARK_GRAY);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("Nama");
+		lblNewLabel.setForeground(Color.WHITE);
 		lblNewLabel.setBounds(52, 38, 61, 16);
 		contentPane.add(lblNewLabel);
 		
@@ -62,6 +66,7 @@ public class OrderFrame extends JFrame {
 		txtNamaCustomer.setColumns(10);
 		
 		JLabel lblJumlah = new JLabel("Jumlah");
+		lblJumlah.setForeground(Color.WHITE);
 		lblJumlah.setBounds(52, 162, 61, 16);
 		contentPane.add(lblJumlah);
 		
@@ -71,20 +76,26 @@ public class OrderFrame extends JFrame {
 		contentPane.add(txtQuantity);
 		
 		JComboBox comboBox = new JComboBox();
+		comboBox.setToolTipText("");
+		comboBox.setForeground(Color.DARK_GRAY);
 		comboBox.setBounds(52, 124, 244, 27);
 		contentPane.add(comboBox);
 		
 		
 		JLabel lblNewLabel_1 = new JLabel("Product");
+		lblNewLabel_1.setForeground(Color.WHITE);
 		lblNewLabel_1.setBounds(52, 104, 61, 16);
 		contentPane.add(lblNewLabel_1);
 		
 		JButton btnTriggerComboBox = new JButton("Show Data");
+		btnTriggerComboBox.setBackground(Color.DARK_GRAY);
+		btnTriggerComboBox.setForeground(Color.DARK_GRAY);
 		btnTriggerComboBox.setBounds(293, 123, 117, 29);
 		contentPane.add(btnTriggerComboBox);
 		
 		JButton btnOrder = new JButton("Order Sekarang");
-		btnOrder.setBounds(159, 228, 151, 29);
+		btnOrder.setForeground(Color.DARK_GRAY);
+		btnOrder.setBounds(113, 228, 232, 44);
 		contentPane.add(btnOrder);
 		
 		

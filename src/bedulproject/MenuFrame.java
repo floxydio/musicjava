@@ -2,6 +2,7 @@ package bedulproject;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
@@ -13,7 +14,11 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
+import java.awt.Color;
+import java.awt.Font;
 
 public class MenuFrame extends JFrame {
 
@@ -39,15 +44,20 @@ public class MenuFrame extends JFrame {
 	 * Create the frame.
 	 */
 	public MenuFrame() {
+		setResizable(false);
+		setTitle("Choose Menu");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 450, 378);
 		contentPane = new JPanel();
+		contentPane.setBackground(Color.DARK_GRAY);
+		contentPane.setForeground(Color.DARK_GRAY);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		JButton btnNewButton = new JButton("Customer");
-		btnNewButton.setBounds(28, 114, 117, 29);
+		btnNewButton.setForeground(Color.DARK_GRAY);
+		btnNewButton.setBounds(93, 75, 244, 47);
 		contentPane.add(btnNewButton);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -61,7 +71,8 @@ public class MenuFrame extends JFrame {
 		});
 		
 		JButton btnOrder = new JButton("Order");
-		btnOrder.setBounds(237, 114, 117, 29);
+		btnOrder.setForeground(Color.DARK_GRAY);
+		btnOrder.setBounds(93, 135, 244, 47);
 		contentPane.add(btnOrder);
 		btnOrder.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -74,9 +85,11 @@ public class MenuFrame extends JFrame {
 				
 			}
 		});
+
 		
 		JButton btnStock = new JButton("Check Stok");
-		btnStock.setBounds(28, 160, 117, 29);
+		btnStock.setForeground(Color.DARK_GRAY);
+		btnStock.setBounds(93, 194, 244, 47);
 		contentPane.add(btnStock);
 		btnStock.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -90,8 +103,20 @@ public class MenuFrame extends JFrame {
 		});
 		
 		JButton btnTransaction = new JButton("Transcation");
-		btnTransaction.setBounds(237, 160, 117, 29);
+		btnTransaction.setForeground(Color.DARK_GRAY);
+		btnTransaction.setBounds(92, 261, 244, 47);
 		contentPane.add(btnTransaction);
+		
+		JLabel lblNewLabel = new JLabel("Pilih Menu");
+		lblNewLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 24));
+		lblNewLabel.setForeground(Color.WHITE);
+		lblNewLabel.setBounds(150, 25, 125, 24);
+		contentPane.add(lblNewLabel);
+		
+		JLabel lblNewLabel_1 = new JLabel("New label");
+		lblNewLabel_1.setIcon(new ImageIcon("/Users/macbook/Downloads/acoustic-guitar-pngrepo-com.png"));
+		lblNewLabel_1.setBounds(254, 152, 341, 219);
+		contentPane.add(lblNewLabel_1);
 		btnTransaction.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				TransactionFrame frame = new TransactionFrame();

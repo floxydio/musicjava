@@ -16,6 +16,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JButton;
+import java.awt.Color;
 
 public class TransactionFrame extends JFrame {
 
@@ -43,9 +44,11 @@ public class TransactionFrame extends JFrame {
 	 * Create the frame.
 	 */
 	public TransactionFrame() {
+		setTitle("Data Transaksi");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
+		contentPane.setBackground(Color.DARK_GRAY);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -59,6 +62,7 @@ public class TransactionFrame extends JFrame {
 		scrollPane.setViewportView(tblTransaction);
 		
 		btnLoadTransaction = new JButton("Load Transaction");
+		btnLoadTransaction.setForeground(Color.DARK_GRAY);
 		btnLoadTransaction.setBounds(153, 237, 145, 29);
 		contentPane.add(btnLoadTransaction);
 		
@@ -77,7 +81,7 @@ public class TransactionFrame extends JFrame {
 					java.sql.ResultSetMetaData rsmd = rs.getMetaData();
 					DefaultTableModel model = (DefaultTableModel) tblTransaction.getModel();
 					
-					int cols = rsmd.getColumnCount();
+					int cols = rsmd.getColumnCount(); 
 					String[] colName =  new String[cols];
 					
 					for (int i = 0; i <cols;i++) {

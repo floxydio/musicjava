@@ -20,6 +20,8 @@ import java.awt.event.ActionEvent;
 import javax.swing.JFormattedTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JLabel;
+import java.awt.Color;
+import javax.swing.ImageIcon;
 
 public class LoginFrame extends JFrame {
 
@@ -46,29 +48,35 @@ public class LoginFrame extends JFrame {
 	 * Create the frame.
 	 */
 	public LoginFrame() {
+		setResizable(false);
+		setTitle("Login Account");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
+		contentPane.setBackground(Color.DARK_GRAY);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
 		JFormattedTextField frmtdtxtfldInputYourUsername = new JFormattedTextField();
 		passwordField = new JPasswordField();
-		frmtdtxtfldInputYourUsername.setBounds(85, 55, 249, 29);
+		frmtdtxtfldInputYourUsername.setBounds(85, 79, 249, 29);
 		contentPane.add(frmtdtxtfldInputYourUsername);
 		
-		passwordField.setBounds(85, 117, 249, 29);
+		passwordField.setBounds(85, 148, 249, 29);
 		contentPane.add(passwordField);
 		
 		JLabel lblNewLabel = new JLabel("Username");
-		lblNewLabel.setBounds(85, 38, 99, 16);
+		lblNewLabel.setForeground(Color.WHITE);
+		lblNewLabel.setBounds(85, 51, 99, 16);
 		contentPane.add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("Password");
-		lblNewLabel_1.setBounds(85, 96, 99, 16);
+		lblNewLabel_1.setForeground(Color.WHITE);
+		lblNewLabel_1.setBounds(85, 120, 99, 16);
 		contentPane.add(lblNewLabel_1);
 		JButton btnNewButton = new JButton("Sign In");
+		btnNewButton.setForeground(Color.DARK_GRAY);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String abc = frmtdtxtfldInputYourUsername.getText();
@@ -96,8 +104,13 @@ public class LoginFrame extends JFrame {
 				
 			}
 		});
-		btnNewButton.setBounds(148, 158, 117, 29);
+		btnNewButton.setBounds(85, 202, 249, 29);
 		contentPane.add(btnNewButton);
+		
+		JLabel lblNewLabel_2 = new JLabel("New label");
+		lblNewLabel_2.setIcon(new ImageIcon("/Users/macbook/Downloads/acoustic-guitar-pngrepo-com.png"));
+		lblNewLabel_2.setBounds(213, 98, 414, 235);
+		contentPane.add(lblNewLabel_2);
 //		setUndecorated(true);
 		setLocationRelativeTo(null);
 	}
