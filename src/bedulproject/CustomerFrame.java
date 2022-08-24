@@ -1,7 +1,7 @@
-package bedulproject;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.Font;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -12,7 +12,12 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import com.toedter.components.JSpinField;
-
+import com.lowagie.text.Document;
+import com.lowagie.text.Element;
+import com.lowagie.text.Image;
+import com.lowagie.text.Paragraph;
+import com.lowagie.text.pdf.PdfPTable;
+import com.lowagie.text.pdf.PdfWriter;
 import com.mysql.cj.jdbc.result.ResultSetMetaData;
 import com.toedter.calendar.JDateChooser;
 import javax.swing.JButton;
@@ -31,7 +36,10 @@ import javax.swing.JTable;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.FileOutputStream;
+
 import javax.swing.ImageIcon;
+import java.awt.Toolkit;
 
 public class CustomerFrame extends JFrame {
 
@@ -84,6 +92,19 @@ public class CustomerFrame extends JFrame {
 		txtAlamat.setColumns(10);
 		txtAlamat.setBounds(108, 97, 195, 26);
 		contentPane.add(txtAlamat);
+		
+		JButton btnBackMenu = new JButton("Back To Menu");
+		btnBackMenu.setFont(new Font("Lucida Grande", Font.PLAIN, 9));
+		btnBackMenu.setBounds(6, 6, 91, 29);
+		contentPane.add(btnBackMenu);
+		
+		btnBackMenu.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MenuFrame frame = new MenuFrame();
+				frame.setVisible(true);
+				setVisible(false);
+			}
+		});
 		
 		JLabel lblAlamat = new JLabel("Alamat");
 		lblAlamat.setForeground(Color.WHITE);
@@ -242,9 +263,70 @@ public class CustomerFrame extends JFrame {
 		scrollPane.setViewportView(tblData);
 		
 		JLabel lblNewLabel_3 = new JLabel("New label");
-		lblNewLabel_3.setIcon(new ImageIcon("/Users/macbook/Downloads/acoustic-guitar-pngrepo-com.png"));
+		lblNewLabel_3.setIcon(new ImageIcon("/Users/macbook/eclipse-workspace/bedulproject/src/acoustic-guitar-pngrepo-com.png"));
 		lblNewLabel_3.setBounds(402, -74, 537, 333);
 		contentPane.add(lblNewLabel_3);
+		
+		JButton btnGeneratePdf = new JButton("Generate PDF");
+		btnGeneratePdf.setBounds(17, 394, 117, 29);
+		contentPane.add(btnGeneratePdf);
+		
+		JLabel lblNewLabel_4 = new JLabel("HARI-HARI Music");
+		lblNewLabel_4.setForeground(Color.WHITE);
+		lblNewLabel_4.setFont(new Font("Lucida Grande", Font.PLAIN, 17));
+		lblNewLabel_4.setBounds(202, 3, 163, 26);
+		contentPane.add(lblNewLabel_4);
+		
+			btnGeneratePdf.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					try
+					{
+						
+						Image image1 = Image.getInstance("/Users/macbook/eclipse-workspace/bedulproject/src/kopsurat.png");
+						image1.setAlignment(Element.ALIGN_CENTER);
+						Paragraph para = new Paragraph("Depok, 26 Agustus 2022");
+//						String jumlahCount =  String.format("%d", Integer.parseInt(tblTransaction.getValueAt(0,4).toString()) * Integer.parseInt(hargaProduct));
+						
+//						System.out.println(jumlahCount);
+						Paragraph paraAdmin = new Paragraph("Admin");
+						para.setAlignment(Element.ALIGN_RIGHT);
+						para.setSpacingAfter(50);
+						para.setSpacingBefore(10);
+						paraAdmin.setAlignment(Element.ALIGN_RIGHT);
+						Document doc=new Document();
+						Paragraph paraText = new Paragraph("HARI-HARI MUSIK");
+						paraText.setAlignment(Element.ALIGN_CENTER);
+						PdfWriter.getInstance(doc, new FileOutputStream("DataCustomer.pdf"));
+						doc.open();
+						PdfPTable pdfTable = new PdfPTable(5);
+						pdfTable.addCell("ID Pelanggan");
+						pdfTable.addCell("Nama");
+						pdfTable.addCell("Alamat");
+						pdfTable.addCell("Tanggal");
+						pdfTable.addCell("No HP");
+						for (int i = 0; i < tblData.getRowCount(); i++) {
+							pdfTable.addCell("00"+tblData.getValueAt(i,0).toString());
+							pdfTable.addCell(tblData.getValueAt(i,1).toString());
+							pdfTable.addCell(tblData.getValueAt(i,2).toString());
+							pdfTable.addCell(tblData.getValueAt(i,3).toString());
+							pdfTable.addCell(tblData.getValueAt(i,4).toString());
+						}
+						
+			
+						doc.add(image1);
+						doc.add(pdfTable);
+						doc.add(para);
+						doc.add(paraAdmin);
+						doc.close();
+//						JOptionPane.showMessageDialog(null,"Data berhasil di Export ke PDF ","Pesan",JOptionPane.INFORMATION_MESSAGE,new ImageIcon("src/Gambar/bukuPesan.png"));
+					}
+					catch(Exception ex)
+					{
+						System.out.println(ex);
+					}
+				}
+				
+			});
 		
 //		JButton btnGeneratePdf = new JButton("New button");
 //		btnGeneratePdf.setBounds(325, 128, 117, 29);

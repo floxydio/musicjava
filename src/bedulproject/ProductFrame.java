@@ -1,4 +1,3 @@
-package bedulproject;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -23,6 +22,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JFormattedTextField;
 import javax.swing.JTextField;
+import java.awt.Font;
 
 public class ProductFrame extends JFrame {
 
@@ -98,42 +98,42 @@ public class ProductFrame extends JFrame {
 		
 		JLabel lblNewLabel = new JLabel("Nama Product");
 		lblNewLabel.setForeground(Color.WHITE);
-		lblNewLabel.setBounds(17, 28, 109, 16);
+		lblNewLabel.setBounds(17, 60, 109, 16);
 		contentPane.add(lblNewLabel);
 		
 		JLabel lblHarga = new JLabel("Harga");
 		lblHarga.setForeground(Color.WHITE);
-		lblHarga.setBounds(17, 94, 109, 16);
+		lblHarga.setBounds(17, 126, 109, 16);
 		contentPane.add(lblHarga);
 		
 		JLabel lblJumlah = new JLabel("Jumlah");
 		lblJumlah.setForeground(Color.WHITE);
-		lblJumlah.setBounds(256, 28, 109, 16);
+		lblJumlah.setBounds(256, 60, 109, 16);
 		contentPane.add(lblJumlah);
 		
 		JLabel lblKodeProduct = new JLabel("Kode Product");
 		lblKodeProduct.setForeground(Color.WHITE);
-		lblKodeProduct.setBounds(256, 94, 109, 16);
+		lblKodeProduct.setBounds(256, 126, 109, 16);
 		contentPane.add(lblKodeProduct);
 		
 		txtJumlah = new JTextField();
-		txtJumlah.setBounds(255, 56, 178, 26);
+		txtJumlah.setBounds(255, 88, 178, 26);
 		contentPane.add(txtJumlah);
 		txtJumlah.setColumns(10);
 		
 		txtHarga = new JTextField();
 		txtHarga.setColumns(10);
-		txtHarga.setBounds(17, 122, 178, 26);
+		txtHarga.setBounds(17, 154, 178, 26);
 		contentPane.add(txtHarga);
 		
 		txtNama = new JTextField();
 		txtNama.setColumns(10);
-		txtNama.setBounds(17, 56, 178, 26);
+		txtNama.setBounds(17, 88, 178, 26);
 		contentPane.add(txtNama);
 		
 		txtKodeBarang = new JTextField();
 		txtKodeBarang.setColumns(10);
-		txtKodeBarang.setBounds(256, 122, 178, 26);
+		txtKodeBarang.setBounds(256, 154, 178, 26);
 		contentPane.add(txtKodeBarang);
 		
 		JButton btnUpdate = new JButton("Update");
@@ -171,6 +171,26 @@ public class ProductFrame extends JFrame {
 		btnClear.setForeground(Color.DARK_GRAY);
 		btnClear.setBounds(17, 266, 148, 35);
 		contentPane.add(btnClear);
+		
+		JButton btnBackMenu = new JButton("Back To Menu");
+		btnBackMenu.setFont(new Font("Lucida Grande", Font.PLAIN, 9));
+		btnBackMenu.setBounds(6, 6, 91, 29);
+		contentPane.add(btnBackMenu);
+		
+		btnBackMenu.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MenuFrame frame = new MenuFrame();
+				frame.setVisible(true);
+				setVisible(false);
+			}
+		});
+		
+
+		JLabel lblNewLabel_4 = new JLabel("HARI-HARI Music");
+		lblNewLabel_4.setForeground(Color.WHITE);
+		lblNewLabel_4.setFont(new Font("Lucida Grande", Font.PLAIN, 17));
+		lblNewLabel_4.setBounds(202, 3, 163, 26);
+		contentPane.add(lblNewLabel_4);
 		
 		btnClear.addActionListener(new ActionListener() {
 			

@@ -1,4 +1,3 @@
-package bedulproject;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -22,6 +21,7 @@ import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 import java.awt.Color;
+import java.awt.Font;
 
 public class OrderFrame extends JFrame {
 
@@ -57,6 +57,13 @@ public class OrderFrame extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		
+
+		JLabel lblNewLabel_4 = new JLabel("HARI-HARI Music");
+		lblNewLabel_4.setForeground(Color.WHITE);
+		lblNewLabel_4.setFont(new Font("Lucida Grande", Font.PLAIN, 17));
+		lblNewLabel_4.setBounds(202, 3, 163, 26);
+		contentPane.add(lblNewLabel_4);
 		
 		JLabel lblNewLabel = new JLabel("Nama");
 		lblNewLabel.setForeground(Color.WHITE);
@@ -115,6 +122,18 @@ public class OrderFrame extends JFrame {
 		lblNewLabel_2.setBounds(52, 153, 61, 16);
 		contentPane.add(lblNewLabel_2);
 		
+		JButton btnBackToMenu = new JButton("Back To Menu");
+		btnBackToMenu.setFont(new Font("Lucida Grande", Font.PLAIN, 9));
+		btnBackToMenu.setBounds(6, 6, 96, 29);
+		contentPane.add(btnBackToMenu);
+		
+		btnBackToMenu.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MenuFrame frame = new MenuFrame();
+				frame.setVisible(true);
+				setVisible(false);
+			}
+		});	
 	btnTriggerComboBox.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) {
@@ -163,5 +182,4 @@ public class OrderFrame extends JFrame {
 		}
 	});
 }
-	
 }

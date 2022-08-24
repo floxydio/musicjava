@@ -1,4 +1,4 @@
-package bedulproject;
+
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -64,7 +64,6 @@ public class MenuFrame extends JFrame {
 				
 			    CustomerFrame field  = new CustomerFrame();
 			    field.setVisible(true);
-			    setVisible(false);
 				
 				
 			}
@@ -114,9 +113,16 @@ public class MenuFrame extends JFrame {
 		contentPane.add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("New label");
-		lblNewLabel_1.setIcon(new ImageIcon("/Users/macbook/Downloads/acoustic-guitar-pngrepo-com.png"));
+		lblNewLabel_1.setIcon(new ImageIcon("/Users/macbook/eclipse-workspace/bedulproject/src/acoustic-guitar-pngrepo-com.png"));
 		lblNewLabel_1.setBounds(254, 152, 341, 219);
 		contentPane.add(lblNewLabel_1);
+		
+		JLabel lblNewLabel_2 = new JLabel("HARI-HARI Music");
+		lblNewLabel_2.setForeground(Color.WHITE);
+		lblNewLabel_2.setBackground(Color.BLACK);
+		lblNewLabel_2.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
+		lblNewLabel_2.setBounds(19, 320, 165, 16);
+		contentPane.add(lblNewLabel_2);
 		btnTransaction.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				TransactionFrame frame = new TransactionFrame();
