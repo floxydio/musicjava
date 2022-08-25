@@ -224,7 +224,7 @@ public class ProductFrame extends JFrame {
 				try
 				{
 					
-					Image image1 = Image.getInstance("/Users/macbook/eclipse-workspace/bedulproject/src/kopsurat.png");
+					Image image1 = Image.getInstance("/Users/macbook/eclipse-workspace/musicjava/src/kopsurat.png");
 					image1.setAlignment(Element.ALIGN_CENTER);
 					Paragraph para = new Paragraph("Depok, 26 Agustus 2022");
 //					String jumlahCount =  String.format("%d", Integer.parseInt(tblTransaction.getValueAt(0,4).toString()) * Integer.parseInt(hargaProduct));
