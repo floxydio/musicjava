@@ -69,7 +69,7 @@ public class TransactionFrame extends JFrame {
 		contentPane.setLayout(null);
 		
 
-		JLabel lblNewLabel_4 = new JLabel("HARI-HARI Music");
+		JLabel lblNewLabel_4 = new JLabel("HARI-HARI Musik");
 		lblNewLabel_4.setForeground(Color.WHITE);
 		lblNewLabel_4.setFont(new Font("Lucida Grande", Font.PLAIN, 17));
 		lblNewLabel_4.setBounds(202, 3, 163, 26);
@@ -114,7 +114,7 @@ public class TransactionFrame extends JFrame {
 					Image image1 = Image.getInstance("/Users/macbook/Downloads/kopsurat.png");
 					image1.setAlignment(Element.ALIGN_CENTER);
 					Paragraph para = new Paragraph("Depok, 26 Agustus 2022");
-					String jumlahCount =  String.format("%d", Integer.parseInt(tblTransaction.getValueAt(0,4).toString()) * Integer.parseInt(hargaProduct));
+					String jumlahCount =  String.format("%d", Integer.parseInt(tblTransaction.getValueAt(0,5).toString()));
 					
 					System.out.println(jumlahCount);
 					Paragraph paraAdmin = new Paragraph("Admin");
@@ -154,27 +154,13 @@ public class TransactionFrame extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				try {
-					Class.forName("com.mysql.cj.jdbc.Driver");
-					Connection Con = DriverManager.getConnection("jdbc:mysql://localhost:3306/music","root", "");
-					Statement stmt= Con.createStatement();
-					String sql = "SELECT * FROM product";
-					ResultSet rs = stmt.executeQuery(sql);
-					
-					while(rs.next()) {
-						hargaProduct = rs.getString("harga");
-					}
-					
-								    
-					stmt.close();
-					Con.close();
-				}catch(Exception e1) {System.out.println(e1);}
+	
 				
 				try {
 					Class.forName("com.mysql.cj.jdbc.Driver");
 					Connection Con = DriverManager.getConnection("jdbc:mysql://localhost:3306/music","root", "");
 					Statement stmt= Con.createStatement();
-					String sql = "SELECT * FROM `transaction` WHERE id =(SELECT max(id) FROM transaction)";
+					String sql = "SELECT `transaction`.id,`transaction`.nama_customer,`transaction`.nama_product,`transaction`.tanggal,`transaction`.quantity,product.harga FROM `transaction` LEFT JOIN product ON transaction.nama_product = product.nama_product WHERE transaction.id =(SELECT max(transaction.id) FROM transaction)";
 					ResultSet rs = stmt.executeQuery(sql);
 					java.sql.ResultSetMetaData rsmd = rs.getMetaData();
 					DefaultTableModel model = (DefaultTableModel) tblTransaction.getModel();
@@ -195,7 +181,8 @@ public class TransactionFrame extends JFrame {
 							namaProduct = rs.getString(3);
 							quantity = rs.getString(4);
 							tanggal = rs.getString(5);
-							total = String.format("%d", Integer.parseInt(rs.getString(5)) * Integer.parseInt(hargaProduct));
+							System.out.println(hargaProduct);
+							total = String.format("%d", Integer.parseInt(rs.getString(5)) * Integer.parseInt(rs.getString(6)));
 //							System.out.println(rs.getString(5));
 							String[] row = {id,namaCustomer,namaProduct,quantity,tanggal,total};
 							model.addRow(row);

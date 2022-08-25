@@ -117,7 +117,7 @@ public class MenuFrame extends JFrame {
 		lblNewLabel_1.setBounds(254, 152, 341, 219);
 		contentPane.add(lblNewLabel_1);
 		
-		JLabel lblNewLabel_2 = new JLabel("HARI-HARI Music");
+		JLabel lblNewLabel_2 = new JLabel("HARI-HARI Musik");
 		lblNewLabel_2.setForeground(Color.WHITE);
 		lblNewLabel_2.setBackground(Color.BLACK);
 		lblNewLabel_2.setFont(new Font("Lucida Grande", Font.PLAIN, 16));

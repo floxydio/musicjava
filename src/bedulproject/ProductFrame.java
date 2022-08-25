@@ -12,12 +12,22 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+
+import com.lowagie.text.Document;
+import com.lowagie.text.Element;
+import com.lowagie.text.Image;
+import com.lowagie.text.Paragraph;
+import com.lowagie.text.pdf.PdfPTable;
+import com.lowagie.text.pdf.PdfWriter;
+
 import javax.swing.JButton;
 import java.awt.Color;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.FileOutputStream;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JFormattedTextField;
@@ -192,6 +202,12 @@ public class ProductFrame extends JFrame {
 		lblNewLabel_4.setBounds(202, 3, 163, 26);
 		contentPane.add(lblNewLabel_4);
 		
+		JButton btnGenerate = new JButton("Generate PDF");
+		btnGenerate.setForeground(Color.BLACK);
+		btnGenerate.setBackground(Color.BLACK);
+		btnGenerate.setBounds(165, 504, 117, 29);
+		contentPane.add(btnGenerate);
+		
 		btnClear.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) {
@@ -199,6 +215,57 @@ public class ProductFrame extends JFrame {
 				txtHarga.setText("");
 				txtKodeBarang.setText("");
 				txtJumlah.setText("");
+			}
+			
+		});
+		
+		btnGenerate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try
+				{
+					
+					Image image1 = Image.getInstance("/Users/macbook/eclipse-workspace/bedulproject/src/kopsurat.png");
+					image1.setAlignment(Element.ALIGN_CENTER);
+					Paragraph para = new Paragraph("Depok, 26 Agustus 2022");
+//					String jumlahCount =  String.format("%d", Integer.parseInt(tblTransaction.getValueAt(0,4).toString()) * Integer.parseInt(hargaProduct));
+					
+//					System.out.println(jumlahCount);
+					Paragraph paraAdmin = new Paragraph("Admin");
+					para.setAlignment(Element.ALIGN_RIGHT);
+					para.setSpacingAfter(50);
+					para.setSpacingBefore(10);
+					paraAdmin.setAlignment(Element.ALIGN_RIGHT);
+					Document doc=new Document();
+					Paragraph paraText = new Paragraph("HARI-HARI MUSIK");
+					paraText.setAlignment(Element.ALIGN_CENTER);
+					PdfWriter.getInstance(doc, new FileOutputStream("DataProduk.pdf"));
+					doc.open();
+					PdfPTable pdfTable = new PdfPTable(5);
+					pdfTable.addCell("ID");
+					pdfTable.addCell("Nama Produk");
+					pdfTable.addCell("Harga");
+					pdfTable.addCell("Kode Barang");
+					pdfTable.addCell("Jumlah");
+					for (int i = 0; i < table.getRowCount(); i++) {
+						pdfTable.addCell(table.getValueAt(i,0).toString());
+						pdfTable.addCell(table.getValueAt(i,1).toString());
+						pdfTable.addCell(table.getValueAt(i,2).toString());
+						pdfTable.addCell(table.getValueAt(i,3).toString());
+						pdfTable.addCell(table.getValueAt(i,4).toString());
+					}
+					
+		
+					doc.add(image1);
+					doc.add(pdfTable);
+					doc.add(para);
+					doc.add(paraAdmin);
+					doc.close();
+					JOptionPane.showMessageDialog(null,"Data berhasil di Export ke PDF ","Pesan",JOptionPane.INFORMATION_MESSAGE);
+				}
+				catch(Exception ex)
+				{
+					System.out.println(ex);
+				}
 			}
 			
 		});

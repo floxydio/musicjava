@@ -271,7 +271,7 @@ public class CustomerFrame extends JFrame {
 		btnGeneratePdf.setBounds(17, 394, 117, 29);
 		contentPane.add(btnGeneratePdf);
 		
-		JLabel lblNewLabel_4 = new JLabel("HARI-HARI Music");
+		JLabel lblNewLabel_4 = new JLabel("HARI-HARI Musik");
 		lblNewLabel_4.setForeground(Color.WHITE);
 		lblNewLabel_4.setFont(new Font("Lucida Grande", Font.PLAIN, 17));
 		lblNewLabel_4.setBounds(202, 3, 163, 26);
