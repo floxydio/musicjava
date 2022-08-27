@@ -51,7 +51,7 @@ public class OrderFrame extends JFrame {
 	public OrderFrame() {
 		setTitle("Order Transaksi");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 382);
+		setBounds(100, 100, 450, 446);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.DARK_GRAY);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -77,18 +77,18 @@ public class OrderFrame extends JFrame {
 		
 		JLabel lblJumlah = new JLabel("Jumlah");
 		lblJumlah.setForeground(Color.WHITE);
-		lblJumlah.setBounds(52, 215, 61, 16);
+		lblJumlah.setBounds(52, 293, 61, 16);
 		contentPane.add(lblJumlah);
 		
 		txtQuantity = new JTextField();
 		txtQuantity.setColumns(10);
-		txtQuantity.setBounds(52, 243, 244, 26);
+		txtQuantity.setBounds(52, 321, 244, 26);
 		contentPane.add(txtQuantity);
 		
 		JComboBox comboBox = new JComboBox();
 		comboBox.setToolTipText("");
 		comboBox.setForeground(Color.DARK_GRAY);
-		comboBox.setBounds(52, 124, 244, 27);
+		comboBox.setBounds(52, 125, 244, 27);
 		contentPane.add(comboBox);
 		
 		
@@ -105,7 +105,7 @@ public class OrderFrame extends JFrame {
 		
 		JButton btnOrder = new JButton("Order Sekarang");
 		btnOrder.setForeground(Color.DARK_GRAY);
-		btnOrder.setBounds(99, 294, 232, 44);
+		btnOrder.setBounds(100, 359, 232, 44);
 		contentPane.add(btnOrder);
 		
 		JLabel lblTanggal = new JLabel("Tanggal");
@@ -114,18 +114,35 @@ public class OrderFrame extends JFrame {
 		contentPane.add(lblNewLabel_1);
 		
 		JDateChooser txtDate = new JDateChooser();
-		txtDate.setBounds(52, 181, 244, 26);
+		txtDate.setBounds(52, 242, 244, 26);
 		contentPane.add(txtDate);
 		
 		JLabel lblNewLabel_2 = new JLabel("Tanggal");
 		lblNewLabel_2.setForeground(Color.WHITE);
-		lblNewLabel_2.setBounds(52, 153, 61, 16);
+		lblNewLabel_2.setBounds(52, 215, 61, 16);
 		contentPane.add(lblNewLabel_2);
 		
 		JButton btnBackToMenu = new JButton("Back To Menu");
 		btnBackToMenu.setFont(new Font("Lucida Grande", Font.PLAIN, 9));
 		btnBackToMenu.setBounds(6, 6, 96, 29);
 		contentPane.add(btnBackToMenu);
+		
+		JLabel lblNewLabel_1_1 = new JLabel("Merek");
+		lblNewLabel_1_1.setForeground(Color.WHITE);
+		lblNewLabel_1_1.setBounds(52, 148, 61, 16);
+		contentPane.add(lblNewLabel_1_1);
+		
+		JComboBox comboMerek = new JComboBox();
+		comboMerek.setToolTipText("");
+		comboMerek.setForeground(Color.DARK_GRAY);
+		comboMerek.setBounds(52, 170, 244, 27);
+		contentPane.add(comboMerek);
+		
+		JButton btnTriggerComboBox_1 = new JButton("Show Data");
+		btnTriggerComboBox_1.setForeground(Color.DARK_GRAY);
+		btnTriggerComboBox_1.setBackground(Color.DARK_GRAY);
+		btnTriggerComboBox_1.setBounds(293, 167, 117, 29);
+		contentPane.add(btnTriggerComboBox_1);
 		
 		btnBackToMenu.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -134,6 +151,29 @@ public class OrderFrame extends JFrame {
 				setVisible(false);
 			}
 		});	
+		
+	btnTriggerComboBox_1.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection Con = DriverManager.getConnection("jdbc:mysql://localhost:3306/music","root", "");
+			Statement stmt= Con.createStatement();
+			String sql = "SELECT * FROM Merek";
+			ResultSet rs = stmt.executeQuery(sql);
+			
+			
+				while(rs.next()) {
+					comboMerek.addItem(rs.getString("Nama"));
+				
+				}
+						    
+			stmt.close();
+			Con.close();
+			btnTriggerComboBox_1.setVisible(false);
+		}catch(Exception e1) {System.out.println(e1);}
+		}
+	});	
+		
 	btnTriggerComboBox.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) {
@@ -167,7 +207,7 @@ public class OrderFrame extends JFrame {
 				Class.forName("com.mysql.cj.jdbc.Driver");
 				Connection Con = DriverManager.getConnection("jdbc:mysql://localhost:3306/music","root", "");
 				Statement stmt= Con.createStatement();
-				String sql = String.format("INSERT INTO transaction (nama_customer,nama_product,tanggal,quantity) VALUES ('%s','%s','%s','%d')",txtNamaCustomer.getText(),comboBox.getSelectedItem(),txtDate.getDate(),Integer.parseInt(txtQuantity.getText()));
+				String sql = String.format("INSERT INTO transaction (nama_customer,nama_product,tanggal,quantity,merek) VALUES ('%s','%s','%s','%d','%s')",txtNamaCustomer.getText(),comboBox.getSelectedItem(),txtDate.getDate(),Integer.parseInt(txtQuantity.getText()),comboMerek.getSelectedItem());
 				System.out.println(sql);
 									stmt.executeUpdate(sql);
 				JOptionPane.showMessageDialog(null,"Sucessfully Order");

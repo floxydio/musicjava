@@ -127,15 +127,17 @@ public class TransactionFrame extends JFrame {
 					paraText.setAlignment(Element.ALIGN_CENTER);
 					PdfWriter.getInstance(doc, new FileOutputStream("DataTransaksi.pdf"));
 					doc.open();
-					PdfPTable pdfTable = new PdfPTable(4);
+					PdfPTable pdfTable = new PdfPTable(5);
 					pdfTable.addCell("ID Pelanggan");
 					pdfTable.addCell("Nama Barang");
 					pdfTable.addCell("Jumlah");
 					pdfTable.addCell("Tanggal");
+					pdfTable.addCell("Merek");
 					pdfTable.addCell("00"+tblTransaction.getValueAt(0,0).toString());
 					pdfTable.addCell(tblTransaction.getValueAt(0,2).toString());
 					pdfTable.addCell(jumlahCount);
 					pdfTable.addCell(tblTransaction.getValueAt(0,3).toString());
+					pdfTable.addCell(tblTransaction.getValueAt(0, 6).toString());
 					doc.add(image1);
 					doc.add(pdfTable);
 					doc.add(para);
@@ -160,7 +162,7 @@ public class TransactionFrame extends JFrame {
 					Class.forName("com.mysql.cj.jdbc.Driver");
 					Connection Con = DriverManager.getConnection("jdbc:mysql://localhost:3306/music","root", "");
 					Statement stmt= Con.createStatement();
-					String sql = "SELECT `transaction`.id,`transaction`.nama_customer,`transaction`.nama_product,`transaction`.tanggal,`transaction`.quantity,product.harga FROM `transaction` LEFT JOIN product ON transaction.nama_product = product.nama_product WHERE transaction.id =(SELECT max(transaction.id) FROM transaction)";
+					String sql = "SELECT `transaction`.id,`transaction`.nama_customer,`transaction`.nama_product,`transaction`.tanggal,`transaction`.quantity,product.harga,`transaction`.merek FROM `transaction` LEFT JOIN product ON transaction.nama_product = product.nama_product WHERE transaction.id =(SELECT max(transaction.id) FROM transaction)";
 					ResultSet rs = stmt.executeQuery(sql);
 					java.sql.ResultSetMetaData rsmd = rs.getMetaData();
 					DefaultTableModel model = (DefaultTableModel) tblTransaction.getModel();
@@ -171,7 +173,7 @@ public class TransactionFrame extends JFrame {
 					for (int i = 0; i <cols;i++) {
 						colName[i] = rsmd.getColumnName(i+1);
 						model.setColumnIdentifiers(colName);
-						String id,namaCustomer,namaProduct,quantity,tanggal;
+						String id,namaCustomer,namaProduct,quantity,tanggal,merek;
 						String total;
 					
 						
@@ -181,10 +183,10 @@ public class TransactionFrame extends JFrame {
 							namaProduct = rs.getString(3);
 							quantity = rs.getString(4);
 							tanggal = rs.getString(5);
+							merek = rs.getString(7);
 							System.out.println(hargaProduct);
 							total = String.format("%d", Integer.parseInt(rs.getString(5)) * Integer.parseInt(rs.getString(6)));
-//							System.out.println(rs.getString(5));
-							String[] row = {id,namaCustomer,namaProduct,quantity,tanggal,total};
+							String[] row = {id,namaCustomer,namaProduct,quantity,tanggal,total,merek};
 							model.addRow(row);
 						}
 					}			    
