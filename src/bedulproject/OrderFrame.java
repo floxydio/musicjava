@@ -3,16 +3,28 @@ import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.TimeZone;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
+import com.lowagie.text.Document;
+import com.lowagie.text.Element;
+import com.lowagie.text.Image;
+import com.lowagie.text.Paragraph;
+import com.lowagie.text.Rectangle;
+import com.lowagie.text.pdf.PdfPTable;
+import com.lowagie.text.pdf.PdfWriter;
 import com.toedter.calendar.JDateChooser;
 
 import javax.swing.JLabel;
@@ -21,6 +33,7 @@ import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.Font;
 
 public class OrderFrame extends JFrame {
@@ -28,6 +41,8 @@ public class OrderFrame extends JFrame {
 	private JPanel contentPane;
 	private JTextField txtNamaCustomer;
 	private JTextField txtQuantity;
+	private JTextField txtUang;
+	String harga;
 
 	/**
 	 * Launch the application.
@@ -51,7 +66,7 @@ public class OrderFrame extends JFrame {
 	public OrderFrame() {
 		setTitle("Order Transaksi");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 446);
+		setBounds(100, 100, 411, 505);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.DARK_GRAY);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -75,14 +90,14 @@ public class OrderFrame extends JFrame {
 		contentPane.add(txtNamaCustomer);
 		txtNamaCustomer.setColumns(10);
 		
-		JLabel lblJumlah = new JLabel("Jumlah");
+		JLabel lblJumlah = new JLabel("Jumlah Barang");
 		lblJumlah.setForeground(Color.WHITE);
-		lblJumlah.setBounds(52, 293, 61, 16);
+		lblJumlah.setBounds(52, 284, 96, 16);
 		contentPane.add(lblJumlah);
 		
 		txtQuantity = new JTextField();
 		txtQuantity.setColumns(10);
-		txtQuantity.setBounds(52, 321, 244, 26);
+		txtQuantity.setBounds(52, 312, 244, 26);
 		contentPane.add(txtQuantity);
 		
 		JComboBox comboBox = new JComboBox();
@@ -105,7 +120,7 @@ public class OrderFrame extends JFrame {
 		
 		JButton btnOrder = new JButton("Order Sekarang");
 		btnOrder.setForeground(Color.DARK_GRAY);
-		btnOrder.setBounds(100, 359, 232, 44);
+		btnOrder.setBounds(100, 416, 232, 44);
 		contentPane.add(btnOrder);
 		
 		JLabel lblTanggal = new JLabel("Tanggal");
@@ -114,12 +129,12 @@ public class OrderFrame extends JFrame {
 		contentPane.add(lblNewLabel_1);
 		
 		JDateChooser txtDate = new JDateChooser();
-		txtDate.setBounds(52, 242, 244, 26);
+		txtDate.setBounds(52, 237, 244, 26);
 		contentPane.add(txtDate);
 		
 		JLabel lblNewLabel_2 = new JLabel("Tanggal");
 		lblNewLabel_2.setForeground(Color.WHITE);
-		lblNewLabel_2.setBounds(52, 215, 61, 16);
+		lblNewLabel_2.setBounds(52, 210, 61, 16);
 		contentPane.add(lblNewLabel_2);
 		
 		JButton btnBackToMenu = new JButton("Back To Menu");
@@ -144,6 +159,17 @@ public class OrderFrame extends JFrame {
 		btnTriggerComboBox_1.setBounds(293, 167, 117, 29);
 		contentPane.add(btnTriggerComboBox_1);
 		
+		JLabel lblJumlahUang = new JLabel("Jumlah Uang");
+		lblJumlahUang.setForeground(Color.WHITE);
+		lblJumlahUang.setBounds(52, 350, 96, 16);
+		contentPane.add(lblJumlahUang);
+		
+		txtUang = new JTextField();
+		txtUang.setColumns(10);
+		txtUang.setBounds(52, 378, 244, 26);
+		contentPane.add(txtUang);
+			
+		
 		btnBackToMenu.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				MenuFrame frame = new MenuFrame();
@@ -164,6 +190,7 @@ public class OrderFrame extends JFrame {
 			
 				while(rs.next()) {
 					comboMerek.addItem(rs.getString("Nama"));
+					
 				
 				}
 						    
@@ -188,6 +215,8 @@ public class OrderFrame extends JFrame {
 					
 						while(rs.next()) {
 							comboBox.addItem(rs.getString("nama_product"));
+
+							harga = rs.getString("harga");
 						
 						}
 								    
@@ -210,16 +239,71 @@ public class OrderFrame extends JFrame {
 				String sql = String.format("INSERT INTO transaction (nama_customer,nama_product,tanggal,quantity,merek) VALUES ('%s','%s','%s','%d','%s')",txtNamaCustomer.getText(),comboBox.getSelectedItem(),txtDate.getDate(),Integer.parseInt(txtQuantity.getText()),comboMerek.getSelectedItem());
 				System.out.println(sql);
 									stmt.executeUpdate(sql);
-				JOptionPane.showMessageDialog(null,"Sucessfully Order");
-				txtNamaCustomer.setText("");
-				comboBox.setSelectedIndex(0);
-				txtQuantity.setText("");
-				
+				JOptionPane.showMessageDialog(null,"Sucessfully Order");				
 				stmt.close();
 				Con.close();
+				
+				try {
+					Calendar cal = Calendar.getInstance();
+
+					int month = cal.get(Calendar.MONTH) + 1;
+					int day = cal.get(Calendar.DAY_OF_MONTH);
+					int year = cal.get(Calendar.YEAR);
+					
+					String monthText = month == 8 ? "Agustus" : "September";
+					
+					
+					Image image1 = Image.getInstance("/Users/macbook/Downloads/kopsurat.png");
+					image1.setAlignment(Element.ALIGN_CENTER);
+					Paragraph para = new Paragraph(String.format("Depok,%d %s %d", day,monthText, year));
+					
+					Paragraph paraAdmin = new Paragraph("Admin");
+					int jumlahTotal = Integer.parseInt(txtQuantity.getText()) * Integer.parseInt(harga);
+					para.setAlignment(Element.ALIGN_RIGHT);
+					para.setSpacingAfter(50);
+					para.setSpacingBefore(10);
+					paraAdmin.setAlignment(Element.ALIGN_RIGHT);
+					Document doc=new Document();
+					Paragraph paraText = new Paragraph("HARI-HARI MUSIK");
+					paraText.setAlignment(Element.ALIGN_CENTER);
+					PdfWriter.getInstance(doc, new FileOutputStream("DataOrders.pdf"));
+					doc.open();
+					PdfPTable pdfTable = new PdfPTable(6);
+					pdfTable.addCell("Nama Customer");
+					pdfTable.addCell("Product");
+					pdfTable.addCell("Tanggal");
+					pdfTable.addCell("Jumlah Barang");
+					pdfTable.addCell("Merek");
+					pdfTable.addCell("Total");
+					pdfTable.addCell(txtNamaCustomer.getText());
+					pdfTable.addCell(comboBox.getSelectedItem().toString());
+					pdfTable.addCell(txtDate.getDate().toString());
+					pdfTable.addCell(txtQuantity.getText());
+					pdfTable.addCell(comboMerek.getSelectedItem().toString());
+					pdfTable.addCell(String.format("%d", jumlahTotal));
+					doc.add(image1);
+					doc.add(pdfTable);
+					doc.add(para);
+					doc.add(paraAdmin);
+					doc.close();
+					System.out.println("SUCCESS CREATE");
+
+					Desktop.getDesktop().open(new File("DataOrders.pdf"));
+
+					txtNamaCustomer.setText("");
+					comboBox.setSelectedIndex(0);
+					txtQuantity.setText("");
+					
+				} catch(Exception ex) {
+					System.out.println(ex);
+				}
+				
+				
 			}catch(Exception e1) {System.out.println(e1);}
 		
 		}
 	});
-}
+
+	
+	}
 }

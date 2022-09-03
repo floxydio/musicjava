@@ -22,10 +22,13 @@ import com.lowagie.text.pdf.PdfWriter;
 
 import javax.swing.JButton;
 import java.awt.Color;
+import java.awt.Desktop;
+
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.io.FileOutputStream;
 
 import javax.swing.JLabel;
@@ -42,6 +45,8 @@ public class ProductFrame extends JFrame {
 	private JTextField txtHarga;
 	private JTextField txtNama;
 	private JTextField txtKodeBarang;
+	private JTextField txtCustomer;
+	private JTextField txtMerek;
 
 	/**
 	 * Launch the application.
@@ -66,7 +71,7 @@ public class ProductFrame extends JFrame {
 		setResizable(false);
 		setTitle("Product ");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 561);
+		setBounds(100, 100, 572, 620);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.DARK_GRAY);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -74,13 +79,13 @@ public class ProductFrame extends JFrame {
 		contentPane.setLayout(null);
 		
 		
-		JButton btnNewButton = new JButton("Add Product");
+		JButton btnNewButton = new JButton("Pesan");
 		btnNewButton.setForeground(Color.DARK_GRAY);
-		btnNewButton.setBounds(279, 216, 148, 35);
+		btnNewButton.setBounds(408, 273, 148, 35);
 		contentPane.add(btnNewButton);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(17, 310, 416, 188);
+		scrollPane.setBounds(17, 364, 529, 188);
 		contentPane.add(scrollPane);
 		
 		table = new JTable();
@@ -88,13 +93,12 @@ public class ProductFrame extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				txtNama.setText((String) table.getValueAt(table.getSelectedRow(),1));
-				
-				
-				txtHarga.setText((String) table.getValueAt(table.getSelectedRow(), 2));
+				txtCustomer.setText((String) table.getValueAt(table.getSelectedRow(), 2));
 
-				txtKodeBarang.setText((String) table.getValueAt(table.getSelectedRow(), 3));
+				txtJumlah.setText((String) table.getValueAt(table.getSelectedRow(), 3));
+				txtMerek.setText((String) table.getValueAt(table.getSelectedRow(), 4));
 
-				txtJumlah.setText((String) table.getValueAt(table.getSelectedRow(), 4));			
+	
 			}
 		});
 		table.setColumnSelectionAllowed(true);
@@ -103,7 +107,7 @@ public class ProductFrame extends JFrame {
 		
 		JButton btnShowData = new JButton("Show Data");
 		btnShowData.setForeground(Color.DARK_GRAY);
-		btnShowData.setBounds(279, 263, 148, 35);
+		btnShowData.setBounds(408, 320, 148, 35);
 		contentPane.add(btnShowData);
 		
 		JLabel lblNewLabel = new JLabel("Nama Product");
@@ -113,27 +117,27 @@ public class ProductFrame extends JFrame {
 		
 		JLabel lblHarga = new JLabel("Harga");
 		lblHarga.setForeground(Color.WHITE);
-		lblHarga.setBounds(17, 126, 109, 16);
+		lblHarga.setBounds(17, 196, 109, 16);
 		contentPane.add(lblHarga);
 		
 		JLabel lblJumlah = new JLabel("Jumlah");
 		lblJumlah.setForeground(Color.WHITE);
-		lblJumlah.setBounds(256, 60, 109, 16);
+		lblJumlah.setBounds(336, 60, 109, 16);
 		contentPane.add(lblJumlah);
 		
 		JLabel lblKodeProduct = new JLabel("Kode Product");
 		lblKodeProduct.setForeground(Color.WHITE);
-		lblKodeProduct.setBounds(256, 126, 109, 16);
+		lblKodeProduct.setBounds(336, 130, 109, 16);
 		contentPane.add(lblKodeProduct);
 		
 		txtJumlah = new JTextField();
-		txtJumlah.setBounds(255, 88, 178, 26);
+		txtJumlah.setBounds(336, 88, 178, 26);
 		contentPane.add(txtJumlah);
 		txtJumlah.setColumns(10);
 		
 		txtHarga = new JTextField();
 		txtHarga.setColumns(10);
-		txtHarga.setBounds(17, 154, 178, 26);
+		txtHarga.setBounds(17, 224, 178, 26);
 		contentPane.add(txtHarga);
 		
 		txtNama = new JTextField();
@@ -143,12 +147,12 @@ public class ProductFrame extends JFrame {
 		
 		txtKodeBarang = new JTextField();
 		txtKodeBarang.setColumns(10);
-		txtKodeBarang.setBounds(256, 154, 178, 26);
+		txtKodeBarang.setBounds(336, 158, 178, 26);
 		contentPane.add(txtKodeBarang);
 		
 		JButton btnUpdate = new JButton("Update");
 		btnUpdate.setForeground(Color.DARK_GRAY);
-		btnUpdate.setBounds(17, 219, 148, 35);
+		btnUpdate.setBounds(17, 273, 148, 35);
 		contentPane.add(btnUpdate);
 		
 		btnUpdate.addActionListener(new ActionListener() {
@@ -158,7 +162,7 @@ public class ProductFrame extends JFrame {
 					Class.forName("com.mysql.cj.jdbc.Driver");
 					Connection Con = DriverManager.getConnection("jdbc:mysql://localhost:3306/music","root", "");
 					Statement stmt= Con.createStatement();
-					String sql = String.format("UPDATE product SET nama_product = '%s', harga = '%s', kode_barang = '%s', quantity = '%s' WHERE id = '%s'",txtNama.getText(),txtHarga.getText(),txtKodeBarang.getText(),txtJumlah.getText(),table.getValueAt(table.getSelectedRow(), 0));
+					String sql = String.format("UPDATE pesanan SET nama_product = '%s',nama_customer = '%s', quantity = '%s',merek = '%s' WHERE id = '%s'",txtNama.getText(),txtCustomer.getText(),txtJumlah.getText(),txtMerek.getText(),table.getValueAt(table.getSelectedRow(), 0));
 					System.out.println(sql);
 				stmt.executeUpdate(sql);
 					JOptionPane.showMessageDialog(null,"Sucessfully Update");
@@ -179,7 +183,7 @@ public class ProductFrame extends JFrame {
 		
 		JButton btnClear = new JButton("Clear");
 		btnClear.setForeground(Color.DARK_GRAY);
-		btnClear.setBounds(17, 266, 148, 35);
+		btnClear.setBounds(17, 320, 148, 35);
 		contentPane.add(btnClear);
 		
 		JButton btnBackMenu = new JButton("Back To Menu");
@@ -205,8 +209,138 @@ public class ProductFrame extends JFrame {
 		JButton btnGenerate = new JButton("Generate PDF");
 		btnGenerate.setForeground(Color.BLACK);
 		btnGenerate.setBackground(Color.BLACK);
-		btnGenerate.setBounds(165, 504, 117, 29);
+		btnGenerate.setBounds(226, 556, 117, 36);
 		contentPane.add(btnGenerate);
+		
+		txtCustomer = new JTextField();
+		txtCustomer.setColumns(10);
+		txtCustomer.setBounds(17, 158, 178, 26);
+		contentPane.add(txtCustomer);
+		
+		JLabel lblNewLabel_1 = new JLabel("Nama Customer");
+		lblNewLabel_1.setForeground(Color.WHITE);
+		lblNewLabel_1.setBounds(17, 130, 117, 16);
+		contentPane.add(lblNewLabel_1);
+		
+		JLabel lblMerek = new JLabel("Merek");
+		lblMerek.setForeground(Color.WHITE);
+		lblMerek.setBounds(336, 196, 109, 16);
+		contentPane.add(lblMerek);
+		
+		txtMerek = new JTextField();
+		txtMerek.setColumns(10);
+		txtMerek.setBounds(336, 224, 178, 26);
+		contentPane.add(txtMerek);
+		
+		JButton btrnGenerateCustomer = new JButton("Generate Customer");
+		btrnGenerateCustomer.setBounds(214, 276, 148, 35);
+		contentPane.add(btrnGenerateCustomer);
+		
+		
+		btrnGenerateCustomer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try
+				{
+					
+					Image image1 = Image.getInstance("/Users/macbook/Downloads/kopsurat.png");
+					image1.setAlignment(Element.ALIGN_CENTER);
+					Paragraph para = new Paragraph("Depok, 26 Agustus 2022");
+					
+					Paragraph paraAdmin = new Paragraph("Admin");
+					para.setAlignment(Element.ALIGN_RIGHT);
+					para.setSpacingAfter(50);
+					para.setSpacingBefore(10);
+					paraAdmin.setAlignment(Element.ALIGN_RIGHT);
+					Document doc=new Document();
+					Paragraph paraText = new Paragraph("HARI-HARI MUSIK");
+					paraText.setAlignment(Element.ALIGN_CENTER);
+					PdfWriter.getInstance(doc, new FileOutputStream("DataCustomerRequest.pdf"));
+					doc.open();
+					PdfPTable pdfTable = new PdfPTable(5);
+					pdfTable.addCell("Nama Barang");
+					pdfTable.addCell("Nama Customer");
+					pdfTable.addCell("Jumlah");
+					pdfTable.addCell("Merek");
+					pdfTable.addCell("Status");
+						pdfTable.addCell(txtNama.getText());
+						pdfTable.addCell(txtCustomer.getText());
+						pdfTable.addCell(txtJumlah.getText());
+						pdfTable.addCell(txtMerek.getText());
+						pdfTable.addCell("Menunggu");
+					
+				
+					doc.add(image1);
+					doc.add(pdfTable);
+					doc.add(para);
+					doc.add(paraAdmin);
+					doc.close();
+					
+					Desktop.getDesktop().open(new File("DataCustomerRequest.pdf"));
+
+//					JOptionPane.showMessageDialog(null,"Data berhasil di Export ke PDF ","Pesan",JOptionPane.INFORMATION_MESSAGE,new ImageIcon("src/Gambar/bukuPesan.png"));
+				}
+				catch(Exception ex)
+				{
+					System.out.println(ex);
+				}
+			}
+			
+		});
+		
+		JButton btnGenerateGudang = new JButton("Generate Gudang");
+		btnGenerateGudang.setBounds(214, 320, 148, 35);
+		contentPane.add(btnGenerateGudang);
+		
+		
+		btnGenerateGudang.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try
+				{
+					
+					Image image1 = Image.getInstance("/Users/macbook/Downloads/kopsurat.png");
+					image1.setAlignment(Element.ALIGN_CENTER);
+					Paragraph para = new Paragraph("Depok, 26 Agustus 2022");
+					
+					Paragraph paraAdmin = new Paragraph("Admin");
+					para.setAlignment(Element.ALIGN_RIGHT);
+					para.setSpacingAfter(50);
+					para.setSpacingBefore(10);
+					paraAdmin.setAlignment(Element.ALIGN_RIGHT);
+					Document doc=new Document();
+					Paragraph paraText = new Paragraph("HARI-HARI MUSIK");
+					paraText.setAlignment(Element.ALIGN_CENTER);
+					PdfWriter.getInstance(doc, new FileOutputStream("DataGudangRequest.pdf"));
+					doc.open();
+					PdfPTable pdfTable = new PdfPTable(5);
+					pdfTable.addCell("Nama Barang");
+					pdfTable.addCell("Nama Customer");
+					pdfTable.addCell("Jumlah");
+					pdfTable.addCell("Merek");
+					pdfTable.addCell("Status");
+						pdfTable.addCell(txtNama.getText());
+						pdfTable.addCell(txtCustomer.getText());
+						pdfTable.addCell(txtJumlah.getText());
+						pdfTable.addCell(txtMerek.getText());
+						pdfTable.addCell("Diterima");
+					
+				
+					doc.add(image1);
+					doc.add(pdfTable);
+					doc.add(para);
+					doc.add(paraAdmin);
+					doc.close();
+					
+					Desktop.getDesktop().open(new File("DataGudangRequest.pdf"));
+
+//					JOptionPane.showMessageDialog(null,"Data berhasil di Export ke PDF ","Pesan",JOptionPane.INFORMATION_MESSAGE,new ImageIcon("src/Gambar/bukuPesan.png"));
+				}
+				catch(Exception ex)
+				{
+					System.out.println(ex);
+				}
+			}
+			
+		});
 		
 		btnClear.addActionListener(new ActionListener() {
 			
@@ -240,12 +374,13 @@ public class ProductFrame extends JFrame {
 					paraText.setAlignment(Element.ALIGN_CENTER);
 					PdfWriter.getInstance(doc, new FileOutputStream("DataProduk.pdf"));
 					doc.open();
-					PdfPTable pdfTable = new PdfPTable(5);
+					PdfPTable pdfTable = new PdfPTable(6);
 					pdfTable.addCell("ID");
 					pdfTable.addCell("Nama Produk");
 					pdfTable.addCell("Harga");
 					pdfTable.addCell("Kode Barang");
 					pdfTable.addCell("Jumlah");
+					pdfTable.addCell("Status");
 					for (int i = 0; i < table.getRowCount(); i++) {
 						pdfTable.addCell(table.getValueAt(i,0).toString());
 						pdfTable.addCell(table.getValueAt(i,1).toString());
@@ -253,6 +388,7 @@ public class ProductFrame extends JFrame {
 						pdfTable.addCell(table.getValueAt(i,3).toString());
 						pdfTable.addCell(table.getValueAt(i,4).toString());
 					}
+					pdfTable.addCell("Diterima");
 					
 		
 					doc.add(image1);
@@ -261,6 +397,8 @@ public class ProductFrame extends JFrame {
 					doc.add(paraAdmin);
 					doc.close();
 					JOptionPane.showMessageDialog(null,"Data berhasil di Export ke PDF ","Pesan",JOptionPane.INFORMATION_MESSAGE);
+					Desktop.getDesktop().open(new File("DataProduk.pdf"));
+
 				}
 				catch(Exception ex)
 				{
@@ -277,7 +415,7 @@ public class ProductFrame extends JFrame {
 					Class.forName("com.mysql.cj.jdbc.Driver");
 					Connection Con = DriverManager.getConnection("jdbc:mysql://localhost:3306/music","root", "");
 					Statement stmt= Con.createStatement();
-					String sql = "SELECT * FROM product";
+					String sql = "SELECT * FROM pesanan";
 					ResultSet rs = stmt.executeQuery(sql);
 					java.sql.ResultSetMetaData rsmd = rs.getMetaData();
 					DefaultTableModel model = (DefaultTableModel) table.getModel();
@@ -319,7 +457,7 @@ public class ProductFrame extends JFrame {
 					Class.forName("com.mysql.cj.jdbc.Driver");
 					Connection Con = DriverManager.getConnection("jdbc:mysql://localhost:3306/music","root", "");
 					Statement stmt= Con.createStatement();
-				String sql = String.format("INSERT INTO product (nama_product,harga,kode_barang,quantity) VALUES ('%s','%d','%s','%d')",txtNama.getText(),Integer.parseInt(txtHarga.getText()),txtKodeBarang.getText(), Integer.parseInt(txtJumlah.getText()));
+				String sql = String.format("INSERT INTO pesanan (nama_product,nama_customer,quantity, merek) VALUES ('%s','%s','%d','%s')",txtNama.getText(),txtCustomer.getText(), Integer.parseInt(txtJumlah.getText()),txtMerek.getText());
 					System.out.println(sql);
 										stmt.executeUpdate(sql);
 					JOptionPane.showMessageDialog(null,"Sucessfully Add");

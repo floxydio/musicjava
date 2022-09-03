@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -31,6 +32,7 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.Color;
+import java.awt.Desktop;
 
 public class TransactionFrame extends JFrame {
 
@@ -114,9 +116,7 @@ public class TransactionFrame extends JFrame {
 					Image image1 = Image.getInstance("/Users/macbook/Downloads/kopsurat.png");
 					image1.setAlignment(Element.ALIGN_CENTER);
 					Paragraph para = new Paragraph("Depok, 26 Agustus 2022");
-					String jumlahCount =  String.format("%d", Integer.parseInt(tblTransaction.getValueAt(0,5).toString()));
 					
-					System.out.println(jumlahCount);
 					Paragraph paraAdmin = new Paragraph("Admin");
 					para.setAlignment(Element.ALIGN_RIGHT);
 					para.setSpacingAfter(50);
@@ -133,16 +133,24 @@ public class TransactionFrame extends JFrame {
 					pdfTable.addCell("Jumlah");
 					pdfTable.addCell("Tanggal");
 					pdfTable.addCell("Merek");
-					pdfTable.addCell("00"+tblTransaction.getValueAt(0,0).toString());
-					pdfTable.addCell(tblTransaction.getValueAt(0,2).toString());
-					pdfTable.addCell(jumlahCount);
-					pdfTable.addCell(tblTransaction.getValueAt(0,3).toString());
-					pdfTable.addCell(tblTransaction.getValueAt(0, 6).toString());
+					for (int i = 0; i < tblTransaction.getRowCount(); i++) {
+
+						String jumlahCount =  String.format("%d", Integer.parseInt(tblTransaction.getValueAt(i,5).toString()));
+						pdfTable.addCell("00"+tblTransaction.getValueAt(i,0).toString());
+						pdfTable.addCell(tblTransaction.getValueAt(i,2).toString());
+						pdfTable.addCell(jumlahCount);
+						pdfTable.addCell(tblTransaction.getValueAt(i,3).toString());
+						pdfTable.addCell(tblTransaction.getValueAt(i, 6).toString());
+					}
+				
 					doc.add(image1);
 					doc.add(pdfTable);
 					doc.add(para);
 					doc.add(paraAdmin);
 					doc.close();
+					
+					Desktop.getDesktop().open(new File("DataTransaksi.pdf"));
+
 //					JOptionPane.showMessageDialog(null,"Data berhasil di Export ke PDF ","Pesan",JOptionPane.INFORMATION_MESSAGE,new ImageIcon("src/Gambar/bukuPesan.png"));
 				}
 				catch(Exception ex)
@@ -162,7 +170,7 @@ public class TransactionFrame extends JFrame {
 					Class.forName("com.mysql.cj.jdbc.Driver");
 					Connection Con = DriverManager.getConnection("jdbc:mysql://localhost:3306/music","root", "");
 					Statement stmt= Con.createStatement();
-					String sql = "SELECT `transaction`.id,`transaction`.nama_customer,`transaction`.nama_product,`transaction`.tanggal,`transaction`.quantity,product.harga,`transaction`.merek FROM `transaction` LEFT JOIN product ON transaction.nama_product = product.nama_product WHERE transaction.id =(SELECT max(transaction.id) FROM transaction)";
+					String sql = "SELECT `transaction`.id,`transaction`.nama_customer,`transaction`.nama_product,`transaction`.tanggal,`transaction`.quantity,product.harga,`transaction`.merek FROM `transaction` LEFT JOIN product ON transaction.nama_product = product.nama_product LIMIT 10";
 					ResultSet rs = stmt.executeQuery(sql);
 					java.sql.ResultSetMetaData rsmd = rs.getMetaData();
 					DefaultTableModel model = (DefaultTableModel) tblTransaction.getModel();

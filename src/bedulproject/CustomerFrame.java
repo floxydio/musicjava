@@ -34,8 +34,10 @@ import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.io.FileOutputStream;
 
 import javax.swing.ImageIcon;
@@ -318,6 +320,8 @@ public class CustomerFrame extends JFrame {
 						doc.add(para);
 						doc.add(paraAdmin);
 						doc.close();
+						Desktop.getDesktop().open(new File("DataCustomer.pdf"));
+
 //						JOptionPane.showMessageDialog(null,"Data berhasil di Export ke PDF ","Pesan",JOptionPane.INFORMATION_MESSAGE,new ImageIcon("src/Gambar/bukuPesan.png"));
 					}
 					catch(Exception ex)
