@@ -86,7 +86,7 @@ public class MenuFrame extends JFrame {
 		});
 
 		
-		JButton btnStock = new JButton("Check Stok");
+		JButton btnStock = new JButton("Transaksi Barang");
 		btnStock.setForeground(Color.DARK_GRAY);
 		btnStock.setBounds(93, 194, 244, 47);
 		contentPane.add(btnStock);

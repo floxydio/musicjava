@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.Calendar;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -71,7 +72,7 @@ public class ProductFrame extends JFrame {
 		setResizable(false);
 		setTitle("Product ");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 572, 620);
+		setBounds(100, 100, 599, 620);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.DARK_GRAY);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -164,7 +165,7 @@ public class ProductFrame extends JFrame {
 					Statement stmt= Con.createStatement();
 					String sql = String.format("UPDATE pesanan SET nama_product = '%s',nama_customer = '%s', quantity = '%s',merek = '%s' WHERE id = '%s'",txtNama.getText(),txtCustomer.getText(),txtJumlah.getText(),txtMerek.getText(),table.getValueAt(table.getSelectedRow(), 0));
 					System.out.println(sql);
-				stmt.executeUpdate(sql);
+					stmt.executeUpdate(sql);
 					JOptionPane.showMessageDialog(null,"Sucessfully Update");
 					table.setModel(new DefaultTableModel());
 					txtNama.setText("");
@@ -242,9 +243,18 @@ public class ProductFrame extends JFrame {
 				try
 				{
 					
+					Calendar cal = Calendar.getInstance();
+
+					int month = cal.get(Calendar.MONTH) + 1;
+					int day = cal.get(Calendar.DAY_OF_MONTH);
+					int year = cal.get(Calendar.YEAR);
+					
+					String monthText = month == 8 ? "Agustus" : "September";
+					
+					
 					Image image1 = Image.getInstance("/Users/macbook/Downloads/kopsurat.png");
 					image1.setAlignment(Element.ALIGN_CENTER);
-					Paragraph para = new Paragraph("Depok, 26 Agustus 2022");
+					Paragraph para = new Paragraph(String.format("Depok,%d %s %d", day,monthText, year));
 					
 					Paragraph paraAdmin = new Paragraph("Admin");
 					para.setAlignment(Element.ALIGN_RIGHT);
@@ -291,15 +301,99 @@ public class ProductFrame extends JFrame {
 		btnGenerateGudang.setBounds(214, 320, 148, 35);
 		contentPane.add(btnGenerateGudang);
 		
+		JButton btnCheckStock = new JButton("Check Stock");
+		btnCheckStock.setBounds(6, 560, 122, 29);
+		contentPane.add(btnCheckStock);
+		
+		btnCheckStock.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try
+				{
+					Class.forName("com.mysql.cj.jdbc.Driver");
+					Connection Con = DriverManager.getConnection("jdbc:mysql://localhost:3306/music","root", "");
+					Statement stmt= Con.createStatement();
+					String sql = "SELECT * FROM product";
+					ResultSet rs = stmt.executeQuery(sql);
+					java.sql.ResultSetMetaData rsmd = rs.getMetaData();
+					Calendar cal = Calendar.getInstance();
+
+					int month = cal.get(Calendar.MONTH) + 1;
+					int day = cal.get(Calendar.DAY_OF_MONTH);
+					int year = cal.get(Calendar.YEAR);
+					
+					String monthText = month == 8 ? "Agustus" : "September";
+					
+					
+					Image image1 = Image.getInstance("/Users/macbook/Downloads/kopsurat.png");
+					image1.setAlignment(Element.ALIGN_CENTER);
+					Paragraph para = new Paragraph(String.format("Depok,%d %s %d", day,monthText, year));
+//					String jumlahCount =  String.format("%d", Integer.parseInt(tblTransaction.getValueAt(0,4).toString()) * Integer.parseInt(hargaProduct));
+					
+//					System.out.println(jumlahCount);
+					Paragraph paraAdmin = new Paragraph("Admin");
+					para.setAlignment(Element.ALIGN_RIGHT);
+					para.setSpacingAfter(50);
+					para.setSpacingBefore(10);
+					paraAdmin.setAlignment(Element.ALIGN_RIGHT);
+					Document doc=new Document();
+					Paragraph paraText = new Paragraph("HARI-HARI MUSIK");
+					paraText.setAlignment(Element.ALIGN_CENTER);
+					PdfWriter.getInstance(doc, new FileOutputStream("DataProduk.pdf"));
+					doc.open();
+					PdfPTable pdfTable = new PdfPTable(5);
+					pdfTable.addCell("ID");
+					pdfTable.addCell("Nama Produk");
+					pdfTable.addCell("Harga");
+					pdfTable.addCell("Kode Barang");
+					pdfTable.addCell("Jumlah");
+					while(rs.next() ) {
+
+						pdfTable.addCell(rs.getString(1));
+						pdfTable.addCell(rs.getString(2));
+						pdfTable.addCell(rs.getString(3));
+						pdfTable.addCell(rs.getString(4));
+						pdfTable.addCell(rs.getString(5));
+					}
+					
+					
+		
+					doc.add(image1);
+					doc.add(pdfTable);
+					doc.add(para);
+					doc.add(paraAdmin);
+					doc.close();
+					JOptionPane.showMessageDialog(null,"Data berhasil di Export ke PDF ","Pesan",JOptionPane.INFORMATION_MESSAGE);
+					Desktop.getDesktop().open(new File("DataProduk.pdf"));
+
+//					JOptionPane.showMessageDialog(null,"Data berhasil di Export ke PDF ","Pesan",JOptionPane.INFORMATION_MESSAGE,new ImageIcon("src/Gambar/bukuPesan.png"));
+				}
+				catch(Exception ex)
+				{
+					System.out.println(ex);
+				}
+			}
+			
+		});
+		
+		
 		
 		btnGenerateGudang.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try
 				{
 					
+					Calendar cal = Calendar.getInstance();
+
+					int month = cal.get(Calendar.MONTH) + 1;
+					int day = cal.get(Calendar.DAY_OF_MONTH);
+					int year = cal.get(Calendar.YEAR);
+					
+					String monthText = month == 8 ? "Agustus" : "September";
+					
+					
 					Image image1 = Image.getInstance("/Users/macbook/Downloads/kopsurat.png");
 					image1.setAlignment(Element.ALIGN_CENTER);
-					Paragraph para = new Paragraph("Depok, 26 Agustus 2022");
+					Paragraph para = new Paragraph(String.format("Depok,%d %s %d", day,monthText, year));
 					
 					Paragraph paraAdmin = new Paragraph("Admin");
 					para.setAlignment(Element.ALIGN_RIGHT);
@@ -358,9 +452,19 @@ public class ProductFrame extends JFrame {
 				try
 				{
 					
-					Image image1 = Image.getInstance("/Users/macbook/eclipse-workspace/musicjava/src/kopsurat.png");
+					
+					Calendar cal = Calendar.getInstance();
+
+					int month = cal.get(Calendar.MONTH) + 1;
+					int day = cal.get(Calendar.DAY_OF_MONTH);
+					int year = cal.get(Calendar.YEAR);
+					
+					String monthText = month == 8 ? "Agustus" : "September";
+					
+					
+					Image image1 = Image.getInstance("/Users/macbook/Downloads/kopsurat.png");
 					image1.setAlignment(Element.ALIGN_CENTER);
-					Paragraph para = new Paragraph("Depok, 26 Agustus 2022");
+					Paragraph para = new Paragraph(String.format("Depok,%d %s %d", day,monthText, year));
 //					String jumlahCount =  String.format("%d", Integer.parseInt(tblTransaction.getValueAt(0,4).toString()) * Integer.parseInt(hargaProduct));
 					
 //					System.out.println(jumlahCount);
@@ -376,17 +480,17 @@ public class ProductFrame extends JFrame {
 					doc.open();
 					PdfPTable pdfTable = new PdfPTable(6);
 					pdfTable.addCell("ID");
-					pdfTable.addCell("Nama Produk");
-					pdfTable.addCell("Harga");
-					pdfTable.addCell("Kode Barang");
-					pdfTable.addCell("Jumlah");
+					pdfTable.addCell("Nama Customer");
+					pdfTable.addCell("Nama Product");
+					pdfTable.addCell("Quantity");
+					pdfTable.addCell("Total Harga");
 					pdfTable.addCell("Status");
 					for (int i = 0; i < table.getRowCount(); i++) {
 						pdfTable.addCell(table.getValueAt(i,0).toString());
 						pdfTable.addCell(table.getValueAt(i,1).toString());
 						pdfTable.addCell(table.getValueAt(i,2).toString());
 						pdfTable.addCell(table.getValueAt(i,3).toString());
-						pdfTable.addCell(table.getValueAt(i,4).toString());
+						pdfTable.addCell(table.getValueAt(i,6).toString());
 					}
 					pdfTable.addCell("Diterima");
 					
@@ -415,26 +519,35 @@ public class ProductFrame extends JFrame {
 					Class.forName("com.mysql.cj.jdbc.Driver");
 					Connection Con = DriverManager.getConnection("jdbc:mysql://localhost:3306/music","root", "");
 					Statement stmt= Con.createStatement();
-					String sql = "SELECT * FROM pesanan";
+					String sql = "SELECT `pesanan`.id,`pesanan`.nama_customer,`pesanan`.nama_product,`pesanan`.quantity,product.harga,`pesanan`.merek, pesanan.quantity * product.harga as totalHarga FROM `pesanan` LEFT JOIN product ON pesanan.nama_product = product.nama_product WHERE `pesanan`.id=( SELECT max(`pesanan`.id) FROM pesanan )";
 					ResultSet rs = stmt.executeQuery(sql);
 					java.sql.ResultSetMetaData rsmd = rs.getMetaData();
 					DefaultTableModel model = (DefaultTableModel) table.getModel();
 					
 					int cols = rsmd.getColumnCount();
 					String[] colName =  new String[cols];
-					
+						
 					for (int i = 0; i <cols;i++) {
 						colName[i] = rsmd.getColumnName(i+1);
 						model.setColumnIdentifiers(colName);
-						String id,namaProduct,harga,kodeBarang,quantity;
+						String id,namaCustomer,namaProduct,quantity,harga,merek, total;
 						
 						while(rs.next()) {
+							String totalInput = String.format("%d", Integer.parseInt(rs.getString(4)) * Integer.parseInt(rs.getString(5)));
+							
+							
 							id = rs.getString(1);
-							namaProduct = rs.getString(2);
-							harga = rs.getString(3);
-							kodeBarang = rs.getString(4);
-							quantity = rs.getString(5);
-							String[] row = {id,namaProduct,harga,kodeBarang,quantity};
+
+							namaCustomer = rs.getString(2);
+							namaProduct = rs.getString(3);
+							quantity = rs.getString(4);
+							harga = rs.getString(5);
+							merek = rs.getString(6);
+							total = rs.getString(7);
+							
+						
+							
+							String[] row = {id,namaCustomer,namaProduct,quantity,harga,merek,total};
 							model.addRow(row);
 						}
 					}			    

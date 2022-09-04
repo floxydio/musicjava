@@ -11,6 +11,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.Calendar;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -113,9 +114,18 @@ public class TransactionFrame extends JFrame {
 				try
 				{
 					
+					Calendar cal = Calendar.getInstance();
+
+					int month = cal.get(Calendar.MONTH) + 1;
+					int day = cal.get(Calendar.DAY_OF_MONTH);
+					int year = cal.get(Calendar.YEAR);
+					
+					String monthText = month == 8 ? "Agustus" : "September";
+					
+					
 					Image image1 = Image.getInstance("/Users/macbook/Downloads/kopsurat.png");
 					image1.setAlignment(Element.ALIGN_CENTER);
-					Paragraph para = new Paragraph("Depok, 26 Agustus 2022");
+					Paragraph para = new Paragraph(String.format("Depok,%d %s %d", day,monthText, year));
 					
 					Paragraph paraAdmin = new Paragraph("Admin");
 					para.setAlignment(Element.ALIGN_RIGHT);
@@ -127,7 +137,7 @@ public class TransactionFrame extends JFrame {
 					paraText.setAlignment(Element.ALIGN_CENTER);
 					PdfWriter.getInstance(doc, new FileOutputStream("DataTransaksi.pdf"));
 					doc.open();
-					PdfPTable pdfTable = new PdfPTable(5);
+					PdfPTable pdfTable = new PdfPTable(6);
 					pdfTable.addCell("ID Pelanggan");
 					pdfTable.addCell("Nama Barang");
 					pdfTable.addCell("Jumlah");
